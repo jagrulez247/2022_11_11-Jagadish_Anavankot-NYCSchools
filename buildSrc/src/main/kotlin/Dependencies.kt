@@ -20,6 +20,7 @@ object Dependencies {
     private const val hiltKapt = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
 
     //Android Dependencies
+    const val splashScreen = "androidx.core:core-splashscreen:${Versions.splashScreen}"
     const val multiDex = "androidx.multidex:multidex:${Versions.multiDex}"
     private const val appcompat = "androidx.appcompat:appcompat:${Versions.androidAppcompat}"
     private const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"

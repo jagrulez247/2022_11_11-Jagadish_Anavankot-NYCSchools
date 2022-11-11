@@ -19,6 +19,7 @@ object Versions {
     const val recyclerView = "1.2.1"
     const val room = "2.4.1"
     const val sqLiteSerial = "3.36.0.3"
+    const val splashScreen = "1.0.0"
 
     //Android Lifecycle Dep versions
     const val androidLifecycle = "2.4.0"

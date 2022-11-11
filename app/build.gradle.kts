@@ -93,6 +93,7 @@ kapt { correctErrorTypes = true }
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(Dependencies.multiDex)
+    implementation(Dependencies.splashScreen)
     addCoreDependencies()
     addDomainDependencies()
     addTestDependencies()
