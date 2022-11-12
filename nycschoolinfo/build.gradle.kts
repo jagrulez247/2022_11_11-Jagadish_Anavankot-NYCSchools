@@ -1,5 +1,5 @@
 import Dependencies.addCoreModuleDependencies
-import Dependencies.addDomainDependencies
+import Dependencies.addCoreUiDependencies
 import Dependencies.addTestDependencies
 
 plugins {
@@ -17,12 +17,6 @@ android {
 
     defaultConfig {
         minSdk = AppConfig.minSdk
-        buildConfigField("String", "API_BASE_URL", "\"https://data.cityofnewyork.us/resource/\"")
-        buildConfigField("String", "APP_TOKEN", project.property("APP_TOKEN") as String)
-        buildConfigField("String", "API_KEY", project.property("API_KEY") as String)
-        buildConfigField("String", "DATABASE_NAME", "\"app-db\"")
-        buildConfigField("int", "DATABASE_VERSION", "1")
-        buildConfigField("boolean", "DATABASE_EXPORT_SCHEMA", "false")
     }
 
     compileOptions {
@@ -52,7 +46,9 @@ kapt {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     addCoreModuleDependencies()
-    addDomainDependencies()
+    addCoreUiDependencies()
     addTestDependencies()
     implementation(project(":common"))
+    implementation(project(":domain"))
+    implementation(project(":uicomponents"))
 }

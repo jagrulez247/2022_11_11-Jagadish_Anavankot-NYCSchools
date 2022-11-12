@@ -1,10 +1,10 @@
-package com.education.nycschools.domain.network
+package com.education.nycschools.common.utils
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.annotations.TestOnly
 
-object NetworkDispatcher {
+object LocalCoroutineDispatcher {
 
     private var testDispatcher: CoroutineDispatcher? = null
 

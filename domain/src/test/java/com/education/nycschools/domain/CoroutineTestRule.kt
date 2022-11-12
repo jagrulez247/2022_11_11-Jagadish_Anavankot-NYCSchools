@@ -1,6 +1,6 @@
 package com.education.nycschools.domain
 
-import com.education.nycschools.domain.network.NetworkDispatcher
+import com.education.nycschools.common.utils.LocalCoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -17,7 +17,7 @@ class CoroutineTestRule(
     override fun starting(description: Description?) {
         super.starting(description)
         Dispatchers.setMain(testDispatcher)
-        NetworkDispatcher.setTestDispatcher(testDispatcher)
+        LocalCoroutineDispatcher.setTestDispatcher(testDispatcher)
     }
 
     override fun finished(description: Description?) {

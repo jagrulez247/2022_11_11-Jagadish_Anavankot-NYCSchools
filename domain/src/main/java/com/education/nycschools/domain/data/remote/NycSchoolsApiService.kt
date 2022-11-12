@@ -10,6 +10,11 @@ interface NycSchoolsApiService {
     @GET("s3k6-pzi2.json")
     suspend fun getSchoolData(@Query("dbn") dbn: String?): Response<NycSchoolDataItem>
 
+    @GET("s3k6-pzi2.json")
+    suspend fun getAllSchools(): Response<List<NycSchoolDataItem>>
+
     @GET("f9bf-2cp4.json")
     suspend fun getAllSchoolSats(): Response<List<NycSchoolSatsItem>>
+
+
 }

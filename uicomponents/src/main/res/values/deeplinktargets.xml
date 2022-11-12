@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="deeplink_https_host">data.cityofnewyork.us</string>
+    <string name="deeplink_scheme">nycschoolinfo</string>
+    <string name="nyc_school_info_host">home</string>
+</resources>

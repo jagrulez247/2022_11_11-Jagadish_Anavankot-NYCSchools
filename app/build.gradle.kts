@@ -97,5 +97,7 @@ dependencies {
     addCoreModuleDependencies()
     addCoreUiDependencies()
     addTestDependencies()
-    implementation(project(":domain"))
+    implementation(project(":common"))
+    implementation(project(":uicomponents"))
+    implementation(project(":nycschoolinfo"))
 }

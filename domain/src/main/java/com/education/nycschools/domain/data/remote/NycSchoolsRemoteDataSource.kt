@@ -1,28 +1,57 @@
 package com.education.nycschools.domain.data.remote
 
-import com.education.nycschools.domain.models.DataFetchResult
-import com.education.nycschools.domain.models.NycSchoolDataItem
-import com.education.nycschools.domain.models.NycSchoolSatsItem
+import com.education.nycschools.domain.data.mappers.NycSchoolDataMapper
+import com.education.nycschools.domain.models.*
 import com.education.nycschools.domain.network.NetworkUtils.getResponse
 import retrofit2.Retrofit
 import javax.inject.Inject
 
 class NycSchoolsRemoteDataSource @Inject constructor(
     private val retrofit: Retrofit,
-    private val apiService: NycSchoolsApiService
+    private val apiService: NycSchoolsApiService,
+    private val mapper: NycSchoolDataMapper
 ) {
 
-    suspend fun fetchSchoolData(dbn: String?): DataFetchResult<NycSchoolDataItem> {
-        return retrofit.getResponse(
+    suspend fun fetchSchool(dbn: String?): DataFetchResult<NycSchoolData>? {
+        val apiResponse = retrofit.getResponse(
             request = { apiService.getSchoolData(dbn) },
             defaultErrorMessage = "Error fetching school basic data"
         )
+        return when (apiResponse.status == DataFetchResult.Status.SUCCESS) {
+            true -> apiResponse
+                .data
+                ?.let { mapper.mapToNycSchoolData(it) }
+                ?.let { DataFetchResult.success(it) }
+            else -> DataFetchResult.error(apiResponse.message ?: "", apiResponse.error)
+        }
     }
 
-    suspend fun fetchAllSchoolSats(): DataFetchResult<List<NycSchoolSatsItem>> {
-        return retrofit.getResponse(
-            request = { apiService.getAllSchoolSats() },
-            defaultErrorMessage = "Error fetching school sat data"
+
+    suspend fun fetchSchools(): DataFetchResult<List<NycSchoolData>>? {
+        val apiResponse = retrofit.getResponse(
+            request = { apiService.getAllSchools() },
+            defaultErrorMessage = "Error fetching all schools basic data"
         )
+        return when (apiResponse.status == DataFetchResult.Status.SUCCESS) {
+            true -> apiResponse
+                .data
+                ?.map { mapper.mapToNycSchoolData(it) }
+                ?.let { DataFetchResult.success(it) }
+            else -> DataFetchResult.error(apiResponse.message ?: "", apiResponse.error)
+        }
+    }
+
+    suspend fun fetchSats(): DataFetchResult<List<NycSchoolSatData>>? {
+        val apiResponse = retrofit.getResponse(
+            request = { apiService.getAllSchoolSats() },
+            defaultErrorMessage = "Error fetching all schools sat data"
+        )
+        return when (apiResponse.status == DataFetchResult.Status.SUCCESS) {
+            true -> apiResponse
+                .data
+                ?.map { mapper.mapToNycSchoolSatData(it) }
+                ?.let { DataFetchResult.success(it) }
+            else -> DataFetchResult.error(apiResponse.message ?: "", apiResponse.error)
+        }
     }
 }
