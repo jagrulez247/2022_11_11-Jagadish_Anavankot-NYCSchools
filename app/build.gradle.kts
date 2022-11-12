@@ -1,5 +1,5 @@
-import Dependencies.addCoreDependencies
-import Dependencies.addDomainDependencies
+import Dependencies.addCoreModuleDependencies
+import Dependencies.addCoreUiDependencies
 import Dependencies.addTestDependencies
 
 plugins {
@@ -94,7 +94,8 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(Dependencies.multiDex)
     implementation(Dependencies.splashScreen)
-    addCoreDependencies()
-    addDomainDependencies()
+    addCoreModuleDependencies()
+    addCoreUiDependencies()
     addTestDependencies()
+    implementation(project(":domain"))
 }

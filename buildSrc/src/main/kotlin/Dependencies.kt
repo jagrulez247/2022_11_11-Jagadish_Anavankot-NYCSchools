@@ -1,3 +1,4 @@
+import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object Dependencies {
@@ -97,11 +98,14 @@ object Dependencies {
         add(kotlinStdLib)
         add(coreKtx)
         add(appcompat)
-        add(material)
         add(legacySupport)
+        add(hilt)
+    }
+
+    private val coreUiDependencies = arrayListOf<String>().apply {
+        add(material)
         add(constraintLayout)
         add(recyclerview)
-        add(hilt)
         add(coil)
     }
 
@@ -185,18 +189,22 @@ object Dependencies {
         }
     }
 
-    fun DependencyHandler.addCoreDependencies() {
-        coreAppDependencies.forEach { add("implementation", it) }
-        coroutineDependencies.forEach { add("implementation", it) }
-        lifecycleDependencies.forEach { add("implementation", it) }
-        add("kapt", hiltKapt)
+    fun DependencyHandler.addCoreModuleDependencies() {
+        implementation(coreAppDependencies)
+        implementation(coroutineDependencies)
+        kaptLocal(mutableListOf(hiltKapt))
+    }
+
+    fun DependencyHandler.addCoreUiDependencies() {
+        implementation(coreUiDependencies)
+        implementation(lifecycleDependencies)
     }
 
     fun DependencyHandler.addDomainDependencies() {
-        networkDependencies.forEach { add("implementation", it) }
-        dbDependencies.forEach { add("implementation", it) }
-        dbKaptDependencies.forEach { add("kapt", it) }
-        add("kapt", moshiKapt)
+        implementation(networkDependencies)
+        implementation(dbDependencies)
+        kaptLocal(dbKaptDependencies)
+        kaptLocal(mutableListOf(hiltKapt))
     }
 
     fun DependencyHandler.addTestDependencies() {

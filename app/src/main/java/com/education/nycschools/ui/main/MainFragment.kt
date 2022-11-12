@@ -28,4 +28,9 @@ class MainFragment : Fragment() {
         mainBinding = FragmentMainBinding.inflate(inflater, container, false)
         return mainBinding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.onViewCreated()
+    }
 }
