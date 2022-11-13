@@ -46,14 +46,6 @@ class NycSchoolInfoFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observe(viewModel.uiState()) { updateUi(it) }
-        replaceFragment(
-            context,
-            R.id.nycSchoolSatsFragmentContainer,
-            NycSchoolSatsFragment
-                .getNycSchoolSatsFragment()
-                .apply { setItemSelectedListener { viewModel.onSatItemSelected(it) } },
-            NycSchoolSatsScreen()
-        )
         viewModel.onViewCreated()
     }
 
@@ -69,11 +61,19 @@ class NycSchoolInfoFragment : BaseFragment() {
                     com.education.nycschools.uicomponents.R.anim.anim_fade_in
                 )
             )
-            NycSchoolInfoUiStates.Loaded -> {
+            NycSchoolInfoUiStates.LoadSatList -> {
                 binding.nycSchoolInfoNoData.visibility = GONE
                 binding.nycSchoolInfoProgressBar.visibility = GONE
                 binding.nycSchoolSatsFragmentContainer.visibility = VISIBLE
                 binding.nycSchoolDetailFragmentContainer.visibility = VISIBLE
+                replaceFragment(
+                    context,
+                    R.id.nycSchoolSatsFragmentContainer,
+                    NycSchoolSatsFragment
+                        .getNycSchoolSatsFragment()
+                        .apply { setItemSelectedListener { viewModel.onSatItemSelected(it) } },
+                    NycSchoolSatsScreen()
+                )
             }
             NycSchoolInfoUiStates.Loading -> {
                 binding.nycSchoolInfoProgressBar.visibility = VISIBLE
@@ -84,9 +84,6 @@ class NycSchoolInfoFragment : BaseFragment() {
             NycSchoolInfoUiStates.NoData -> {
                 binding.nycSchoolInfoProgressBar.visibility = GONE
                 binding.nycSchoolInfoNoData.visibility = VISIBLE
-            }
-            is NycSchoolInfoUiStates.LoadError -> context?.let {
-                Toast.makeText(it, R.string.nyc_school_data_fetch_error, LENGTH_LONG).show()
             }
         }
     }

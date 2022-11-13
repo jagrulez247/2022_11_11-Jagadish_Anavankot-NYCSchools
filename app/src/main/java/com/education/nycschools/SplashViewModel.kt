@@ -1,6 +1,5 @@
 package com.education.nycschools
 
-import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -28,14 +27,9 @@ internal class SplashViewModel @Inject constructor(
     @Volatile private var isFinished: Boolean = false
 
     fun onCreate() {
-        viewModelScope.launch(main()) {
-            Log.d(TAG, "Initializing...")
-            prefetchUtil.fetchAndSaveAllSchoolSats { loaded -> if (loaded) moveToMainNavScreens() }
-            Log.d(TAG, "Fetch all school sats step done")
-            prefetchUtil.refreshAllSchools()
-            Log.d(TAG, "Fetch all schools step done")
-            moveToMainNavScreens()
-        }
+        prefetchUtil.fetchAndSaveAllSchoolSats()
+        prefetchUtil.refreshAllSchools()
+        viewModelScope.launch(main()) { moveToMainNavScreens() }
     }
 
     @MainThread

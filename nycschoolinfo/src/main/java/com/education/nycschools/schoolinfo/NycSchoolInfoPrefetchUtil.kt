@@ -13,11 +13,11 @@ class NycSchoolInfoPrefetchUtil @Inject constructor(private val repo: NycSchools
 
     private val prefetchScope by lazy { CoroutineScope(SupervisorJob() + main()) }
 
-    suspend fun fetchAndSaveAllSchoolSats(callback: (Boolean) -> Unit) = prefetchScope.launch {
+    fun fetchAndSaveAllSchoolSats(callback: (Boolean) -> Unit = {}) = prefetchScope.launch {
         repo.fetchAllSchoolSats().collect { callback(it?.data?.isNotEmpty() == true) }
     }
 
-    suspend fun refreshAllSchools(callback: (Boolean) -> Unit = {}) = prefetchScope.launch {
+    fun refreshAllSchools(callback: (Boolean) -> Unit = {}) = prefetchScope.launch {
         repo.refreshSchools().collect { callback(it?.data?.isNotEmpty() == true) }
     }
 }

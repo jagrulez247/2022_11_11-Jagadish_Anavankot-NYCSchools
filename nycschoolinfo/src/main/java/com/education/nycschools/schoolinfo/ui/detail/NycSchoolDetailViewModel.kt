@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.UnderlineSpan
+import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,8 +15,8 @@ import com.education.nycschools.domain.models.DataFetchResult
 import com.education.nycschools.domain.models.NycSchoolData
 import com.education.nycschools.schoolinfo.R
 import com.education.nycschools.schoolinfo.ui.detail.NycSchoolDetailUiStates.*
+import com.education.nycschools.schoolinfo.ui.main.NycSchoolInfoUiStates
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,60 +30,74 @@ class NycSchoolDetailViewModel @Inject constructor(
     private val underlineSpan = UnderlineSpan()
     fun onViewCreated(context: Context, dbn: String) {
         viewModelScope.launch(main()) {
+            val cachedSchoolData = repository.getSchoolDetailFromCache(dbn)
+            if (cachedSchoolData != null) {
+                updateUi(context, cachedSchoolData)
+                return@launch
+            }
+
             repository.fetchSchoolData(dbn)
-                .onStart { emit(DataFetchResult.loading()) }
                 .collect { result ->
                     val isLoading = result?.status == DataFetchResult.Status.LOADING
-                    if (isLoading) {
-                        uiState.value = Loading
-                        return@collect
+
+                    val schoolName = result?.data?.school_name ?: ""
+                    uiState.value = when {
+                        schoolName.isNotBlank() -> Loaded
+                        isLoading -> Loading
+                        else -> NoData
                     }
 
-                    val unavailable = context.getString(
-                        com.education.nycschools.uicomponents.R.string.nyc_school_info_unavailable
-                    )
-                    val schoolData = result?.data
-                    val schoolName = schoolData?.school_name ?: ""
-                    val totalStudents = String.format(
-                        context.getString(R.string.nyc_school_detail_total_students),
-                        schoolData?.total_students ?: unavailable
-                    )
-                    val email = schoolData?.school_email ?: ""
-                    val formattedEmail = SpannableStringBuilder(email).apply {
-                        setSpan(underlineSpan, 0, email.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    }
-                    val phone = schoolData?.phone_number ?: ""
-                    val formattedPhone = SpannableStringBuilder(phone).apply {
-                        setSpan(underlineSpan, 0, phone.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    }
-                    val address = getAddress(schoolData)
-                    val gradRate = getGradRate(context, schoolData)
-                    val academics = getFullAcademicString(context, schoolData)
-                    val eligible = schoolData?.eligibility1 ?: ""
-                    val overview = schoolData?.overview_paragraph ?: ""
-                    val activities = getActivities(schoolData)
-                    val sports = getSports(schoolData)
-                    uiState.value = if (schoolName.isBlank()) NoData else Loaded
-                    uiState.value = SchoolName(schoolName)
-                    uiState.value =
-                        if (eligible.isBlank()) HideEligibility else SchoolEligibility(eligible)
-                    uiState.value =
-                        if (address.isBlank()) HideAddress else SchoolAddress(address)
-                    uiState.value = SchoolTotalStudents(totalStudents)
-                    uiState.value = SchoolGradRate(gradRate)
-                    uiState.value = SchoolDescription(overview)
-                    uiState.value =
-                        if (academics.isBlank()) HideAcademics else SchoolAcademics(academics)
-                    uiState.value =
-                        if (activities.isBlank()) HideActivities else SchoolActivities(activities)
-                    uiState.value =
-                        if (sports.isBlank()) HideSports else SchoolSports(sports)
-                    uiState.value =
-                        if (formattedEmail.isBlank()) HideEmail else SchoolEmail(formattedEmail)
-                    uiState.value =
-                        if (formattedPhone.isBlank()) HidePhone else SchoolPhone(formattedPhone)
+                    if (schoolName.isBlank()) return@collect
+
+                    updateUi(context, result?.data)
                 }
         }
+    }
+
+    @MainThread
+    private fun updateUi(context: Context, schoolData: NycSchoolData?) {
+        uiState.value = Loaded
+        val unavailable = context.getString(
+            com.education.nycschools.uicomponents.R.string.nyc_school_info_unavailable
+        )
+        val schoolName = schoolData?.school_name ?: ""
+        val totalStudents = String.format(
+            context.getString(R.string.nyc_school_detail_total_students),
+            schoolData?.total_students ?: unavailable
+        )
+        val email = schoolData?.school_email ?: ""
+        val formattedEmail = SpannableStringBuilder(email).apply {
+            setSpan(underlineSpan, 0, email.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        val phone = schoolData?.phone_number ?: ""
+        val formattedPhone = SpannableStringBuilder(phone).apply {
+            setSpan(underlineSpan, 0, phone.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        val address = getAddress(schoolData)
+        val gradRate = getGradRate(context, schoolData)
+        val academics = getFullAcademicString(context, schoolData)
+        val eligible = schoolData?.eligibility1 ?: ""
+        val overview = schoolData?.overview_paragraph ?: ""
+        val activities = getActivities(schoolData)
+        val sports = getSports(schoolData)
+        uiState.value = SchoolName(schoolName)
+        uiState.value =
+            if (eligible.isBlank()) HideEligibility else SchoolEligibility(eligible)
+        uiState.value =
+            if (address.isBlank()) HideAddress else SchoolAddress(address)
+        uiState.value = SchoolTotalStudents(totalStudents)
+        uiState.value = SchoolGradRate(gradRate)
+        uiState.value = SchoolDescription(overview)
+        uiState.value =
+            if (academics.isBlank()) HideAcademics else SchoolAcademics(academics)
+        uiState.value =
+            if (activities.isBlank()) HideActivities else SchoolActivities(activities)
+        uiState.value =
+            if (sports.isBlank()) HideSports else SchoolSports(sports)
+        uiState.value =
+            if (formattedEmail.isBlank()) HideEmail else SchoolEmail(formattedEmail)
+        uiState.value =
+            if (formattedPhone.isBlank()) HidePhone else SchoolPhone(formattedPhone)
     }
 
     private fun getSports(schoolData: NycSchoolData?): String {

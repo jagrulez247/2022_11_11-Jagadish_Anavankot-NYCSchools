@@ -9,6 +9,9 @@ import com.education.nycschools.domain.models.NycSchoolSatData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ConcurrentMap
+import java.util.concurrent.CopyOnWriteArrayList
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,11 +20,26 @@ class NycSchoolsInfoRepository @Inject constructor(
     private val schoolsRemoteDataSource: NycSchoolsRemoteDataSource,
     private val schoolsDao: NycSchoolDataDao
 ) {
+    private val schoolSats: CopyOnWriteArrayList<NycSchoolSatData> = CopyOnWriteArrayList()
+    private val schoolData: ConcurrentHashMap<String, NycSchoolData> = ConcurrentHashMap()
+
+    fun getSatsFromCache(): List<NycSchoolSatData> = schoolSats
+
+    fun getSchoolDetailFromCache(dbn: String): NycSchoolData? = schoolData[dbn]
+
     suspend fun fetchAllSchoolSats(): Flow<DataFetchResult<List<NycSchoolSatData>>?> {
         return flow {
-            emit(schoolsDao.fetchSatsCached())
+            emit(schoolsDao.fetchSatsCached(backup = schoolSats))
             emit(DataFetchResult.loading())
-            emit(schoolsRemoteDataSource.fetchSats()?.apply { schoolsDao.refreshSats(data) })
+            emit(schoolsRemoteDataSource.fetchSats()
+                .apply {
+                    if (!data.isNullOrEmpty()) {
+                        schoolsDao.refreshSats(data)
+                        schoolSats.clear()
+                        schoolSats.addAll(data)
+                    }
+                }
+            )
         }.flowOn(io())
     }
 
@@ -29,9 +47,14 @@ class NycSchoolsInfoRepository @Inject constructor(
         return flow {
             emit(DataFetchResult.loading())
             val schools = schoolsRemoteDataSource
-                    .fetchSchools()
-                    .apply { data?.forEach { schoolsDao.refreshSchool(it) } }
-                    .data
+                .fetchSchools()
+                .apply {
+                    schoolData.clear()
+                    data?.forEach {
+                        schoolsDao.refreshSchool(it)
+                        schoolData[it.dbn] = it
+                    }
+                }.data
             emit(DataFetchResult.success(schools))
         }.flowOn(io())
     }

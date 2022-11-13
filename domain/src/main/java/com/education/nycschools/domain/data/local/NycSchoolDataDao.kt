@@ -23,8 +23,13 @@ interface NycSchoolDataDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSchoolData(data: NycSchoolData)
 
-    fun fetchSatsCached(): DataFetchResult<List<NycSchoolSatData>>? {
-        return getAllSats()?.let { DataFetchResult.success(it) }
+    fun fetchSatsCached(backup: MutableList<NycSchoolSatData>): DataFetchResult<List<NycSchoolSatData>>? {
+        return getAllSats()
+            ?.let {
+                backup.clear()
+                backup.addAll(it)
+                DataFetchResult.success(it)
+            }
     }
 
     fun fetchSchoolCached(dbn: String): DataFetchResult<NycSchoolData>? {

@@ -1,5 +1,6 @@
 package com.education.nycschools.schoolinfo.ui.sats
 
+import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,22 +26,29 @@ class NycSchoolSatsViewModel @Inject constructor(
 
     fun onViewCreated() {
         viewModelScope.launch(main()) {
-            repository.fetchAllSchoolSats().collect { result ->
-                val schoolSatsFetched = result
-                    ?.data
-                    ?.filter { satData -> satData.school_name != null }
-                    ?.sortedBy { satData -> satData.school_name }
-                    ?: mutableListOf()
-                schoolSats.clear()
-                schoolSats.addAll(schoolSatsFetched)
-                val firstDbn = schoolSats.takeIf { it.isNotEmpty() }?.get(0)?.dbn ?: ""
-                if (firstDbn.isNotBlank()) {
-                    handleItemSelected(firstDbn)
-                } else {
-                    uiState.value = NycSchoolSatsUiStates.UpdateSchoolSats(schoolSats)
-                }
-
+            val cachedSchoolSats = repository.getSatsFromCache()
+            if (cachedSchoolSats.isNotEmpty()) {
+                handleSatData(cachedSchoolSats)
+                return@launch
             }
+
+            repository.fetchAllSchoolSats().collect { result -> handleSatData(result?.data) }
+        }
+    }
+
+    @MainThread
+    private fun handleSatData(satDataFetched: List<NycSchoolSatData>?) {
+        val schoolSatsFetched = satDataFetched
+            ?.filter { satData -> satData.school_name != null }
+            ?.sortedBy { satData -> satData.school_name }
+            ?: mutableListOf()
+        schoolSats.clear()
+        schoolSats.addAll(schoolSatsFetched)
+        val firstDbn = schoolSats.takeIf { it.isNotEmpty() }?.get(0)?.dbn ?: ""
+        if (firstDbn.isNotBlank()) {
+            handleItemSelected(firstDbn)
+        } else {
+            uiState.value = NycSchoolSatsUiStates.UpdateSchoolSats(schoolSats)
         }
     }
 
