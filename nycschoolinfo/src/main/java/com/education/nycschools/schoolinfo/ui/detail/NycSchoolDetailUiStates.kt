@@ -1,5 +1,7 @@
 package com.education.nycschools.schoolinfo.ui.detail
 
+import android.text.SpannableStringBuilder
+
 sealed class NycSchoolDetailUiStates {
     object Loading: NycSchoolDetailUiStates()
     object Loaded: NycSchoolDetailUiStates()
@@ -14,8 +16,8 @@ sealed class NycSchoolDetailUiStates {
     class SchoolName(val name: String): NycSchoolDetailUiStates()
     class SchoolEligibility(val eligibility: String): NycSchoolDetailUiStates()
     class SchoolAddress(val address: String): NycSchoolDetailUiStates()
-    class SchoolEmail(val email: String): NycSchoolDetailUiStates()
-    class SchoolPhone(val phone: String): NycSchoolDetailUiStates()
+    class SchoolEmail(val email: SpannableStringBuilder): NycSchoolDetailUiStates()
+    class SchoolPhone(val phone: SpannableStringBuilder): NycSchoolDetailUiStates()
     class SchoolTotalStudents(val total: String): NycSchoolDetailUiStates()
     class SchoolGradRate(val rate: String): NycSchoolDetailUiStates()
     class SchoolDescription(val overview: String): NycSchoolDetailUiStates()

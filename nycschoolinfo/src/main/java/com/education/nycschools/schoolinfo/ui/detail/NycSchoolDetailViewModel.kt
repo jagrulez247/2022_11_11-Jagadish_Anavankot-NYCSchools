@@ -1,6 +1,9 @@
 package com.education.nycschools.schoolinfo.ui.detail
 
 import android.content.Context
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.UnderlineSpan
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,7 +26,7 @@ class NycSchoolDetailViewModel @Inject constructor(
 
     private val uiState: MutableLiveData<NycSchoolDetailUiStates> = MutableLiveData()
     internal fun uiState(): LiveData<NycSchoolDetailUiStates> = uiState
-
+    private val underlineSpan = UnderlineSpan()
     fun onViewCreated(context: Context, dbn: String) {
         viewModelScope.launch(main()) {
             repository.fetchSchoolData(dbn)
@@ -45,7 +48,13 @@ class NycSchoolDetailViewModel @Inject constructor(
                         schoolData?.total_students ?: unavailable
                     )
                     val email = schoolData?.school_email ?: ""
+                    val formattedEmail = SpannableStringBuilder(email).apply {
+                        setSpan(underlineSpan, 0, email.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    }
                     val phone = schoolData?.phone_number ?: ""
+                    val formattedPhone = SpannableStringBuilder(phone).apply {
+                        setSpan(underlineSpan, 0, phone.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    }
                     val address = getAddress(schoolData)
                     val gradRate = getGradRate(context, schoolData)
                     val academics = getFullAcademicString(context, schoolData)
@@ -69,9 +78,9 @@ class NycSchoolDetailViewModel @Inject constructor(
                     uiState.value =
                         if (sports.isBlank()) HideSports else SchoolSports(sports)
                     uiState.value =
-                        if (email.isBlank()) HideEmail else SchoolEmail(email)
+                        if (formattedEmail.isBlank()) HideEmail else SchoolEmail(formattedEmail)
                     uiState.value =
-                        if (phone.isBlank()) HidePhone else SchoolPhone(phone)
+                        if (formattedPhone.isBlank()) HidePhone else SchoolPhone(formattedPhone)
                 }
         }
     }
