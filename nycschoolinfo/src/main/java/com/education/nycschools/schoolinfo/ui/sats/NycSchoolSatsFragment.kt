@@ -41,6 +41,7 @@ class NycSchoolSatsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView(view)
+        setupSearchView()
         observe(viewModel.uiState()) { updateUi(it) }
         viewModel.onViewCreated()
     }
@@ -53,6 +54,7 @@ class NycSchoolSatsFragment : BaseFragment() {
         when (state) {
             is NycSchoolSatsUiStates.UpdateSchoolSats -> satAdapter.update(state.sats)
             is NycSchoolSatsUiStates.InformItemSelection -> itemSelectedCallback(state.dbn)
+            NycSchoolSatsUiStates.DismissKeyboard -> binding.searchLayout.hideKeyboard()
         }
     }
 
@@ -64,9 +66,15 @@ class NycSchoolSatsFragment : BaseFragment() {
                 onItemClick = { dbn, position ->
                     binding.nycSchoolSatsRecyclerView.smoothScrollToPosition(position)
                     viewModel.onItemSelected(dbn)
-                    itemSelectedCallback(dbn)
                 }
             ).apply { satAdapter = this }
         }
+    }
+
+    private fun setupSearchView() {
+        binding.searchLayout.listenToQueryChanges(
+            lifecycle = viewLifecycleOwner.lifecycle,
+            searchCallback = { viewModel.onSearchQuery(it) }
+        )
     }
 }
