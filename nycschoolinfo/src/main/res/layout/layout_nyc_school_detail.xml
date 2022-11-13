@@ -183,7 +183,7 @@
 
         <TextView
             android:id="@+id/nycSchoolEmail"
-            style="@style/TextView.Secondary.Small.Bold"
+            style="@style/TextView.Accent.Small.Bold"
             android:layout_width="0dp"
             android:layout_marginTop="24dp"
             android:ellipsize="end"
@@ -195,7 +195,7 @@
 
         <TextView
             android:id="@+id/nycSchoolPhone"
-            style="@style/TextView.Secondary.Small.Bold"
+            style="@style/TextView.Accent.Small.Bold"
             android:layout_width="0dp"
             android:layout_marginTop="24dp"
             android:ellipsize="end"
