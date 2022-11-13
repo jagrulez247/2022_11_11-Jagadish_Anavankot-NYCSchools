@@ -182,6 +182,18 @@
             app:layout_constraintTop_toBottomOf="@id/nycSchoolSports" />
 
         <TextView
+            android:id="@+id/nycSchoolSatScoresDescription"
+            style="@style/TextView.Accent.Small"
+            android:layout_width="0dp"
+            android:layout_marginTop="24dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:text="@string/nyc_school_sat_scores_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolSportsDetail"/>
+
+        <TextView
             android:id="@+id/nycSchoolEmail"
             style="@style/TextView.Accent.Small.Bold"
             android:layout_width="0dp"
@@ -189,7 +201,7 @@
             android:ellipsize="end"
             android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nycSchoolSportsDetail"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolSatScoresDescription"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".65"/>
 
@@ -201,7 +213,7 @@
             android:ellipsize="end"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nycSchoolSportsDetail"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolSatScoresDescription"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".35"/>
 
