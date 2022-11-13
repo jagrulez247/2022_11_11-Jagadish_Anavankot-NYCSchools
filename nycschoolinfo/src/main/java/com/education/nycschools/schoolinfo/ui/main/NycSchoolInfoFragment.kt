@@ -16,6 +16,8 @@ import com.education.nycschools.schoolinfo.ui.sats.NycSchoolSatsFragment
 import com.education.nycschools.uicomponents.base.BaseFragment
 import com.education.nycschools.uicomponents.extensions.observe
 import com.education.nycschools.uicomponents.extensions.replaceFragment
+import com.education.nycschools.uicomponents.feature.FeatureConstants.NYC_SCHOOL_DBN
+import com.education.nycschools.uicomponents.feature.data.NycSchoolDetailScreen
 import com.education.nycschools.uicomponents.feature.data.NycSchoolSatsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,7 +33,6 @@ class NycSchoolInfoFragment : BaseFragment() {
 
     private val viewModel: NycSchoolInfoViewModel by activityViewModels()
     private lateinit var binding: FragmentNycSchoolsInfoBinding
-    private lateinit var detailFragment: NycSchoolDetailFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,32 +49,42 @@ class NycSchoolInfoFragment : BaseFragment() {
         replaceFragment(
             context,
             R.id.nycSchoolSatsFragmentContainer,
-            NycSchoolSatsFragment.getNycSchoolSatsFragment(),
+            NycSchoolSatsFragment
+                .getNycSchoolSatsFragment()
+                .apply { setItemSelectedListener { viewModel.onSatItemSelected(it) } },
             NycSchoolSatsScreen()
         )
         viewModel.onViewCreated()
     }
 
-    internal fun onSatItemSelected(dbn: String) {
-        viewModel.onSatItemSelected(dbn)
-    }
-
     private fun updateUi(state: NycSchoolInfoUiStates) {
         when (state) {
-            is NycSchoolInfoUiStates.LoadSchoolDetail -> {
-
-            }
+            is NycSchoolInfoUiStates.LoadSchoolDetail -> replaceFragment(
+                context,
+                R.id.nycSchoolDetailFragmentContainer,
+                NycSchoolDetailFragment.getNycSchoolDetailFragment(
+                    Bundle().apply { putString(NYC_SCHOOL_DBN, state.dbn) }
+                ),
+                NycSchoolDetailScreen().setEnterAnimation(
+                    com.education.nycschools.uicomponents.R.anim.anim_fade_in
+                )
+            )
             NycSchoolInfoUiStates.Loaded -> {
+                binding.nycSchoolInfoNoData.visibility = GONE
                 binding.nycSchoolInfoProgressBar.visibility = GONE
                 binding.nycSchoolSatsFragmentContainer.visibility = VISIBLE
                 binding.nycSchoolDetailFragmentContainer.visibility = VISIBLE
             }
             NycSchoolInfoUiStates.Loading -> {
                 binding.nycSchoolInfoProgressBar.visibility = VISIBLE
+                binding.nycSchoolInfoNoData.visibility = GONE
                 binding.nycSchoolSatsFragmentContainer.visibility = GONE
                 binding.nycSchoolDetailFragmentContainer.visibility = GONE
             }
-            NycSchoolInfoUiStates.NoData -> binding.nycSchoolInfoNoData.visibility = VISIBLE
+            NycSchoolInfoUiStates.NoData -> {
+                binding.nycSchoolInfoProgressBar.visibility = GONE
+                binding.nycSchoolInfoNoData.visibility = VISIBLE
+            }
             is NycSchoolInfoUiStates.LoadError -> context?.let {
                 Toast.makeText(it, R.string.nyc_school_data_fetch_error, LENGTH_LONG).show()
             }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_primary_with_tertiary_variant_border_view"
+    android:paddingTop="16dp">
+
+    <include
+        android:id="@+id/nycSchoolDetailContent"
+        layout="@layout/layout_nyc_school_detail" />
+
+    <TextView
+        android:id="@+id/nycSchoolDetailNoData"
+        style="@style/TextView.Secondary.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/nyc_school_no_data"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/nycSchoolDetailProgressBar"
+        style="@style/ProgressBar.Indeterminate.Medium"
+        android:layout_marginTop="64dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

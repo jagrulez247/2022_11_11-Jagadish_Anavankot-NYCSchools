@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface NycSchoolsApiService {
     @GET("s3k6-pzi2.json")
-    suspend fun getSchoolData(@Query("dbn") dbn: String?): Response<NycSchoolDataItem>
+    suspend fun getSchoolData(@Query("dbn") dbn: String?): Response<List<NycSchoolDataItem>>
 
     @GET("s3k6-pzi2.json")
     suspend fun getAllSchools(): Response<List<NycSchoolDataItem>>

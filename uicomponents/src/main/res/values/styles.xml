@@ -17,6 +17,13 @@
         <item name="android:lineSpacingExtra">4dp</item>
         <item name="android:textSize">14sp</item>
     </style>
+    <style name="TextView.Secondary.Small" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorSecondary</item>
+        <item name="android:lineSpacingExtra">4dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
     <style name="TextView.Secondary.Normal" parent="Widget.AppCompat.TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

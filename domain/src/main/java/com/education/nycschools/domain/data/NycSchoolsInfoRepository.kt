@@ -30,8 +30,8 @@ class NycSchoolsInfoRepository @Inject constructor(
             emit(DataFetchResult.loading())
             val schools = schoolsRemoteDataSource
                     .fetchSchools()
-                    ?.apply { data?.forEach { schoolsDao.refreshSchool(it) } }
-                    ?.data
+                    .apply { data?.forEach { schoolsDao.refreshSchool(it) } }
+                    .data
             emit(DataFetchResult.success(schools))
         }.flowOn(io())
     }
@@ -41,7 +41,7 @@ class NycSchoolsInfoRepository @Inject constructor(
         return flow {
             emit(schoolsDao.fetchSchoolCached(dbn))
             emit(DataFetchResult.loading())
-            emit(schoolsRemoteDataSource.fetchSchool(dbn)?.apply { schoolsDao.refreshSchool(data) })
+            emit(schoolsRemoteDataSource.fetchSchool(dbn).apply { schoolsDao.refreshSchool(data) })
         }.flowOn(io())
     }
 }

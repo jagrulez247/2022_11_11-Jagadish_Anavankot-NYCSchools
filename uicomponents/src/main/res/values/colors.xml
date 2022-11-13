@@ -11,6 +11,7 @@
     <color name="colorTertiaryDark">#FECC00</color>
     <color name="colorOnTertiary">#222222</color>
     <color name="colorTertiaryVariant">#4FC3F7</color>
+    <color name="colorTertiaryVariantSecondary">#F0F8FF</color>
     <color name="colorOnTertiaryVariant">#E2F6FF</color>
     <color name="colorGrayBackground">#F1F1F1</color>
     <color name="colorBlueBackground">#B3E5FC</color>

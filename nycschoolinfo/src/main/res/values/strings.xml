@@ -7,4 +7,6 @@
     <string name="nyc_school_sat_math">M: %1$s</string>
     <string name="nyc_school_sat_reading">R: %1$s</string>
     <string name="nyc_school_sat_writing">W: %1$s</string>
+    <string name="nyc_school_detail_total_students">Students: %1$s</string>
+    <string name="nyc_school_detail_graduation_rate">Graduation rate: %1$s%%</string>
 </resources>

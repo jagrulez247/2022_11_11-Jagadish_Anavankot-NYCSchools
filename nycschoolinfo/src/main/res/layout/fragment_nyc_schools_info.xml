@@ -44,6 +44,8 @@
         android:id="@+id/nycSchoolDetailFragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:elevation="10dp"
+        android:background="@drawable/rounded_primary_with_tertiary_variant_border_view"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <ProgressBar
@@ -53,7 +55,7 @@
 
     <TextView
         android:id="@+id/nycSchoolInfoNoData"
-        style="@style/TextView.Secondary.Medium.Bold"
+        style="@style/TextView.Secondary.Medium"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:ellipsize="end"

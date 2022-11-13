@@ -29,11 +29,11 @@ internal fun FragmentManager.replaceFragment(
     this
         .takeIf { !it.isDestroyed }
         ?.apply {
-            val tag = context?.getString(data?.tagRes ?: 0) ?: ""
-            val args = data?.build()
-            val enterAnim = args?.getInt(BaseFragmentData.ENTER_ANIM, 0) ?: 0
-            val exitAnim = args?.getInt(BaseFragmentData.EXIT_ANIM, 0) ?: 0
-            val addBackSTack = args?.getBoolean(BaseFragmentData.ADD_TO_BACK_STACK, false) ?: false
+            val tag = context?.getString(data.tagRes) ?: ""
+            val args = data.build()
+            val enterAnim = args.getInt(BaseFragmentData.ENTER_ANIM, 0)
+            val exitAnim = args.getInt(BaseFragmentData.EXIT_ANIM, 0)
+            val addBackSTack = args.getBoolean(BaseFragmentData.ADD_TO_BACK_STACK, false)
             beginTransaction().apply {
                 if (enterAnim != 0 || exitAnim != 0) setCustomAnimations(enterAnim, exitAnim)
                 setReorderingAllowed(true)

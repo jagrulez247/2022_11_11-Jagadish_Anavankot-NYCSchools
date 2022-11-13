@@ -35,7 +35,7 @@ internal class NycSchoolSatItemViewHolder(
         val res = if (isSelected)
             R.drawable.rounded_button_tertiary_variant_with_border_view
         else
-            R.drawable.rounded_primary_with_border_view
+            R.drawable.rounded_surface_variant_with_border_view
         itemBinding.nycSchoolSatCard.setBackgroundResource(res)
     }
 

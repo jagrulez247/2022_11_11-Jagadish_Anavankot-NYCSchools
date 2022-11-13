@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemDetailContentScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemDetailScrollableContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/nycSchoolName"
+            style="@style/TextView.Secondary.Medium.Bold"
+            android:ellipsize="end"
+            android:gravity="top|center_horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="New Explorations Into Science, Technology And Math High School" />
+
+        <TextView
+            android:id="@+id/nycSchoolTotalStudents"
+            style="@style/TextView.Secondary.Normal"
+            android:layout_width="0dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolName"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".48"
+            tools:text="Students: 400" />
+
+        <View
+            android:id="@+id/nycSchoolSatMiddleDivider"
+            android:layout_width="1dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolName" />
+
+        <TextView
+            android:id="@+id/nycSchoolGraduationRate"
+            style="@style/TextView.Secondary.Normal"
+            android:layout_width="0dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolName"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".48"
+            tools:text="Graduation rate: 78%" />
+
+        <View
+            android:id="@+id/nycSchoolSatTopDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolTotalStudents" />
+
+        <TextView
+            android:id="@+id/nycSchoolDescription"
+            style="@style/TextView.Secondary.Small"
+            android:layout_marginTop="24dp"
+            android:ellipsize="end"
+            android:justificationMode="inter_word"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolSatTopDivider"
+            tools:text="The mission of International High School at Union Square is to prepare our multicultural student population of recent immigrants to embark on individualized pathways towards skill development, graduation, college, and careers. Our students are immersed in experiential, interdisciplinary projects and English language instruction in all content areas to facilitate their language development and increase content knowledge within a supportive, personalized atmosphere. Drawing upon diversity as a driving force, we empower our students to collaborate, advocate for themselves and others, and identify as global citizens." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.education.nycschools.schoolinfo.databinding.FragmentNycSchoolSatsBinding
-import com.education.nycschools.schoolinfo.ui.main.NycSchoolInfoFragment
 import com.education.nycschools.schoolinfo.ui.sats.adapter.NycSchoolSatAdapter
 import com.education.nycschools.uicomponents.base.BaseFragment
 import com.education.nycschools.uicomponents.extensions.observe
@@ -27,6 +27,7 @@ class NycSchoolSatsFragment : BaseFragment() {
     private val viewModel: NycSchoolSatsViewModel by activityViewModels()
     private lateinit var binding: FragmentNycSchoolSatsBinding
     private lateinit var satAdapter: NycSchoolSatAdapter
+    private lateinit var itemSelectedCallback: (String) -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,20 +45,26 @@ class NycSchoolSatsFragment : BaseFragment() {
         viewModel.onViewCreated()
     }
 
+    internal fun setItemSelectedListener(callback: (String) -> Unit) {
+        itemSelectedCallback = callback
+    }
+
     private fun updateUi(state: NycSchoolSatsUiStates) {
         when (state) {
             is NycSchoolSatsUiStates.UpdateSchoolSats -> satAdapter.update(state.sats)
+            is NycSchoolSatsUiStates.InformItemSelection -> itemSelectedCallback(state.dbn)
         }
     }
 
     private fun setRecyclerView(view: View) {
         binding.nycSchoolSatsRecyclerView.apply {
             layoutManager = LinearLayoutManager(view.context, RecyclerView.HORIZONTAL, false)
+            LinearSnapHelper().attachToRecyclerView(this)
             adapter = NycSchoolSatAdapter(
                 onItemClick = { dbn, position ->
                     binding.nycSchoolSatsRecyclerView.smoothScrollToPosition(position)
                     viewModel.onItemSelected(dbn)
-                    (parentFragment as? NycSchoolInfoFragment)?.onSatItemSelected(dbn)
+                    itemSelectedCallback(dbn)
                 }
             ).apply { satAdapter = this }
         }

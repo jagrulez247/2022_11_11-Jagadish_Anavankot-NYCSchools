@@ -43,5 +43,6 @@ internal class SplashViewModel @Inject constructor(
         if (isFinished) return
         isFinished = true
         uiState.value = SplashUiStates.MoveToAppScreens(NycSchoolInfoScreen())
+        uiState.value = SplashUiStates.Finish
     }
 }

@@ -20,7 +20,7 @@ internal object NetworkUtils {
                 val errorResponse = parseError(result, this)
                 DataFetchResult.error(errorResponse?.status_message ?: defaultErrorMessage, errorResponse)
             }
-        } catch (e: Throwable) {
+        } catch (e: Exception) {
             DataFetchResult.error("Unknown Error", null)
         }
     }

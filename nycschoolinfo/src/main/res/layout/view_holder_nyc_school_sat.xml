@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:paddingStart="4dp"
-    android:paddingEnd="4dp"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +16,7 @@
         android:paddingTop="16dp"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:background="@drawable/rounded_primary_with_border_view"
+        android:background="@drawable/rounded_surface_variant_with_border_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 

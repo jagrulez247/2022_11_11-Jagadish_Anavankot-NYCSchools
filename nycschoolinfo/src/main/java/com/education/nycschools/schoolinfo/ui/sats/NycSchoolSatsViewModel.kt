@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.education.nycschools.common.utils.LocalCoroutineDispatcher
+import com.education.nycschools.common.utils.LocalCoroutineDispatcher.main
 import com.education.nycschools.domain.data.NycSchoolsInfoRepository
 import com.education.nycschools.domain.models.NycSchoolSatData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,7 @@ class NycSchoolSatsViewModel @Inject constructor(
     private val schoolSats: MutableList<NycSchoolSatData> = mutableListOf()
 
     fun onViewCreated() {
-        viewModelScope.launch(LocalCoroutineDispatcher.main()) {
+        viewModelScope.launch(main()) {
             repository.fetchAllSchoolSats().collect { result ->
                 val schoolSatsFetched = result
                     ?.data
@@ -30,12 +30,22 @@ class NycSchoolSatsViewModel @Inject constructor(
                     ?: mutableListOf()
                 schoolSats.clear()
                 schoolSats.addAll(schoolSatsFetched)
-                uiState.value = NycSchoolSatsUiStates.UpdateSchoolSats(schoolSats)
+                val firstDbn = schoolSats.takeIf { it.isNotEmpty() }?.get(0)?.dbn ?: ""
+                if (firstDbn.isNotBlank()) {
+                    handleItemSelected(firstDbn)
+                } else {
+                    uiState.value = NycSchoolSatsUiStates.UpdateSchoolSats(schoolSats)
+                }
+
             }
         }
     }
 
     fun onItemSelected(dbn: String?) {
+        viewModelScope.launch(main()) { handleItemSelected(dbn) }
+    }
+
+    private fun handleItemSelected(dbn: String?) {
         if (dbn.isNullOrBlank()) return
         val selectionIndex = schoolSats.indexOfFirst { it.dbn == dbn }
         if (selectionIndex == -1) return
@@ -44,5 +54,6 @@ class NycSchoolSatsViewModel @Inject constructor(
             schoolSats[index] = itemAtIndex.copy(selected = index == selectionIndex)
         }
         uiState.value = NycSchoolSatsUiStates.UpdateSchoolSats(schoolSats)
+        uiState.value = NycSchoolSatsUiStates.InformItemSelection(dbn)
     }
 }
