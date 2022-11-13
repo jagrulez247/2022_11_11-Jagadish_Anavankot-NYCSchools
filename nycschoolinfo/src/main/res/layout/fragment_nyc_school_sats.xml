@@ -7,7 +7,7 @@
     android:paddingStart="12dp"
     android:paddingEnd="12dp"
     android:paddingBottom="24dp"
-    android:background="@color/colorTertiaryVariantSecondary">
+    android:background="@drawable/gradient_background">
 
     <com.education.nycschools.uicomponents.custom.search.NycSchoolSearchView
         android:id="@+id/searchLayout"
