@@ -48,6 +48,61 @@ class NycSchoolDetailFragment: BaseFragment() {
             is SchoolDescription -> {
                 binding.nycSchoolDetailContent.nycSchoolDescription.text = state.overview
             }
+            is HideEligibility -> {
+                binding.nycSchoolDetailContent.nycSchoolEligibility.visibility = GONE
+            }
+            is HideAddress -> {
+                binding.nycSchoolDetailContent.nycSchoolAddress.visibility = GONE
+            }
+            is HideEmail -> {
+                binding.nycSchoolDetailContent.nycSchoolEmail.visibility = GONE
+            }
+            is HidePhone -> {
+                binding.nycSchoolDetailContent.nycSchoolPhone.visibility = GONE
+            }
+            is HideAcademics -> {
+                binding.nycSchoolDetailContent.nycSchoolHighlights.visibility = GONE
+                binding.nycSchoolDetailContent.nycSchoolHighlightsDetail.visibility = GONE
+            }
+            is HideActivities -> {
+                binding.nycSchoolDetailContent.nycSchoolActivities.visibility = GONE
+                binding.nycSchoolDetailContent.nycSchoolActivitiesDetail.visibility = GONE
+            }
+            is HideSports -> {
+                binding.nycSchoolDetailContent.nycSchoolSports.visibility = GONE
+                binding.nycSchoolDetailContent.nycSchoolSportsDetail.visibility = GONE
+            }
+            is SchoolEligibility -> {
+                binding.nycSchoolDetailContent.nycSchoolEligibility.visibility = VISIBLE
+                binding.nycSchoolDetailContent.nycSchoolEligibility.text = state.eligibility
+            }
+            is SchoolAddress -> {
+                binding.nycSchoolDetailContent.nycSchoolAddress.visibility = VISIBLE
+                binding.nycSchoolDetailContent.nycSchoolAddress.text = state.address
+            }
+            is SchoolEmail -> {
+                binding.nycSchoolDetailContent.nycSchoolEmail.visibility = VISIBLE
+                binding.nycSchoolDetailContent.nycSchoolEmail.text = state.email
+            }
+            is SchoolPhone -> {
+                binding.nycSchoolDetailContent.nycSchoolPhone.visibility = VISIBLE
+                binding.nycSchoolDetailContent.nycSchoolPhone.text = state.phone
+            }
+            is SchoolAcademics -> {
+                binding.nycSchoolDetailContent.nycSchoolHighlights.visibility = VISIBLE
+                binding.nycSchoolDetailContent.nycSchoolHighlightsDetail.visibility = VISIBLE
+                binding.nycSchoolDetailContent.nycSchoolHighlightsDetail.text = state.academics
+            }
+            is SchoolActivities -> {
+                binding.nycSchoolDetailContent.nycSchoolActivities.visibility = VISIBLE
+                binding.nycSchoolDetailContent.nycSchoolActivitiesDetail.visibility = VISIBLE
+                binding.nycSchoolDetailContent.nycSchoolActivitiesDetail.text = state.activities
+            }
+            is SchoolSports -> {
+                binding.nycSchoolDetailContent.nycSchoolSports.visibility = VISIBLE
+                binding.nycSchoolDetailContent.nycSchoolSportsDetail.visibility = VISIBLE
+                binding.nycSchoolDetailContent.nycSchoolSportsDetail.text = state.sports
+            }
             is SchoolGradRate -> {
                 binding.nycSchoolDetailContent.nycSchoolGraduationRate.text = state.rate
             }

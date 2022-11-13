@@ -25,6 +25,36 @@
             tools:text="New Explorations Into Science, Technology And Math High School" />
 
         <TextView
+            android:id="@+id/nycSchoolEligibility"
+            style="@style/TextView.Secondary.Normal"
+            android:ellipsize="end"
+            android:gravity="top|center_horizontal"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolName"
+            tools:text="New Explorations Into Science, Technology And Math High School" />
+
+
+        <TextView
+            android:id="@+id/nycSchoolAddress"
+            style="@style/TextView.Accent.Normal"
+            android:layout_width="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:maxLines="2"
+            android:drawableStart="@android:drawable/ic_menu_compass"
+            android:drawablePadding="8dp"
+            android:drawableTint="@color/colorAccent"
+            app:drawableStartCompat="@android:drawable/ic_menu_compass"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolEligibility"
+            tools:text="New Explorations Into Science, Technology And Math High School" />
+
+
+        <TextView
             android:id="@+id/nycSchoolTotalStudents"
             style="@style/TextView.Secondary.Normal"
             android:layout_width="0dp"
@@ -32,7 +62,7 @@
             android:ellipsize="end"
             android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nycSchoolName"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolAddress"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".48"
             tools:text="Students: 400" />
@@ -45,7 +75,7 @@
             android:background="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nycSchoolName" />
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolAddress" />
 
         <TextView
             android:id="@+id/nycSchoolGraduationRate"
@@ -55,7 +85,7 @@
             android:ellipsize="end"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nycSchoolName"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolAddress"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".48"
             tools:text="Graduation rate: 78%" />
@@ -80,6 +110,103 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nycSchoolSatTopDivider"
             tools:text="The mission of International High School at Union Square is to prepare our multicultural student population of recent immigrants to embark on individualized pathways towards skill development, graduation, college, and careers. Our students are immersed in experiential, interdisciplinary projects and English language instruction in all content areas to facilitate their language development and increase content knowledge within a supportive, personalized atmosphere. Drawing upon diversity as a driving force, we empower our students to collaborate, advocate for themselves and others, and identify as global citizens." />
+
+        <TextView
+            android:id="@+id/nycSchoolHighlights"
+            style="@style/TextView.Secondary.Normal.Bold"
+            android:layout_width="0dp"
+            android:layout_marginTop="24dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:text="@string/nyc_school_detail_highlights"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolDescription" />
+
+        <TextView
+            android:id="@+id/nycSchoolHighlightsDetail"
+            style="@style/TextView.Secondary.Small"
+            android:layout_width="0dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:justificationMode="inter_word"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolHighlights" />
+
+        <TextView
+            android:id="@+id/nycSchoolActivities"
+            style="@style/TextView.Secondary.Normal.Bold"
+            android:layout_width="0dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:text="@string/nyc_school_detail_activities"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolHighlightsDetail" />
+
+        <TextView
+            android:id="@+id/nycSchoolActivitiesDetail"
+            style="@style/TextView.Secondary.Small"
+            android:layout_width="0dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:justificationMode="inter_word"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolActivities" />
+
+        <TextView
+            android:id="@+id/nycSchoolSports"
+            style="@style/TextView.Secondary.Normal.Bold"
+            android:layout_width="0dp"
+            android:layout_marginTop="24dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:text="@string/nyc_school_detail_sports"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolActivitiesDetail" />
+
+        <TextView
+            android:id="@+id/nycSchoolSportsDetail"
+            style="@style/TextView.Secondary.Small"
+            android:layout_width="0dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:justificationMode="inter_word"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolSports" />
+
+        <TextView
+            android:id="@+id/nycSchoolEmail"
+            style="@style/TextView.Secondary.Normal.Bold"
+            android:layout_width="0dp"
+            android:layout_marginTop="24dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolSportsDetail"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".60"/>
+
+        <TextView
+            android:id="@+id/nycSchoolPhone"
+            style="@style/TextView.Secondary.Normal.Bold"
+            android:layout_width="0dp"
+            android:layout_marginTop="24dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolSportsDetail"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".40"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolPhone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
