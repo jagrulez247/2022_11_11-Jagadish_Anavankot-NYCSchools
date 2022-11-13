@@ -9,13 +9,16 @@ import kotlinx.parcelize.Parcelize
 class NycSchoolInfoScreen(
     override val tagRes: Int = R.string.nyc_school_info_fragment,
     override val deeplinkHostRes: Int = R.string.nyc_school_info_host
-) : BaseFragmentData() {
+) : BaseFragmentData()
 
-    fun addNycSchoolDbns(dbns: List<String>?): BaseFragmentData {
-        if (dbns.isNullOrEmpty()) return this
-        args.apply {
-            putStringArrayList(NYC_SCHOOL_DBN_LIST, arrayListOf<String>().apply { addAll(dbns) })
-        }
-        return this
-    }
-}
+@Parcelize
+class NycSchoolSatsScreen(
+    override val tagRes: Int = R.string.nyc_school_sats_fragment,
+    override val deeplinkHostRes: Int = R.string.nyc_school_info_host
+) : BaseFragmentData()
+
+@Parcelize
+class NycSchoolDetailScreen(
+    override val tagRes: Int = R.string.nyc_school_detail_fragment,
+    override val deeplinkHostRes: Int = R.string.nyc_school_info_host
+) : BaseFragmentData()

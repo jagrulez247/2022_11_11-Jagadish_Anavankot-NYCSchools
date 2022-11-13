@@ -3,4 +3,7 @@
     <string name="searchable_app_name">NycSchools</string>
     <string name="search_bar_hint">What are you looking for?</string>
     <string name="nyc_school_info_fragment">NycSchoolInfoFragment</string>
+    <string name="nyc_school_sats_fragment">NycSchoolSatsFragment</string>
+    <string name="nyc_school_detail_fragment">NycSchoolDetailFragment</string>
+    <string name="nyc_school_info_unavailable">N/A</string>
 </resources>

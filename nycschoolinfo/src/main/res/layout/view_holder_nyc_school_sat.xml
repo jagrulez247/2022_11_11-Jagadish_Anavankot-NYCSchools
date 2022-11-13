@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:paddingStart="4dp"
+    android:paddingEnd="4dp"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/nycSchoolSatCard"
+        android:layout_width="224dp"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:background="@drawable/rounded_primary_with_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/nycSchoolName"
+            style="@style/TextView.Secondary.Normal.Bold"
+            android:gravity="top|center_horizontal"
+            android:minLines="3"
+            android:ellipsize="end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="New Explorations Into Science, Technology And Math High School" />
+
+        <TextView
+            android:id="@+id/nycSchoolSatTitle"
+            style="@style/TextView.Accent.Normal"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textAllCaps="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/nyc_school_sat_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolName" />
+
+        <View
+            android:id="@+id/nycSchoolSatTopDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorTertiaryVariant"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolSatTitle"/>
+
+        <TextView
+            android:id="@+id/nycSchoolSatMath"
+            style="@style/TextView.Secondary.Normal"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolSatTopDivider"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".33"
+            tools:text="M: 1888" />
+
+        <TextView
+            android:id="@+id/nycSchoolSatReading"
+            style="@style/TextView.Secondary.Normal"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolSatTopDivider"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".33"
+            tools:text="R: 1888" />
+
+        <TextView
+            android:id="@+id/nycSchoolSatWriting"
+            style="@style/TextView.Secondary.Normal"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolSatTopDivider"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".33"
+            tools:text="W: 1688" />
+
+        <TextView
+            android:id="@+id/nycSchoolSatTotalTests"
+            style="@style/TextView.Secondary.Normal"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nycSchoolSatWriting"
+            tools:text="Total Tests: 1688" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

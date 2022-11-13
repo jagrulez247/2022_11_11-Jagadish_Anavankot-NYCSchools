@@ -10,7 +10,6 @@ import com.education.nycschools.common.utils.LocalCoroutineDispatcher.main
 import com.education.nycschools.schoolinfo.NycSchoolInfoPrefetchUtil
 import com.education.nycschools.uicomponents.feature.data.NycSchoolInfoScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,7 +19,6 @@ internal class SplashViewModel @Inject constructor(
 ) : ViewModel() {
 
     companion object {
-        private const val API_LOAD_TIMEOUT = 1500L
         private const val TAG = "SplashViewModel"
     }
 
@@ -36,7 +34,6 @@ internal class SplashViewModel @Inject constructor(
             Log.d(TAG, "Fetch all school sats step done")
             prefetchUtil.refreshAllSchools()
             Log.d(TAG, "Fetch all schools step done")
-            delay(API_LOAD_TIMEOUT) // Max time to wait before load is complete
             moveToMainNavScreens()
         }
     }

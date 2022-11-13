@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nyc_school_data_fetch_error">Could not load data</string>
+    <string name="nyc_school_no_data">No school data available</string>
+    <string name="nyc_school_sat_title">SAT AVG. SCORES</string>
+    <string name="nyc_school_sat_total_takes">Total Tests: %1$s</string>
+    <string name="nyc_school_sat_math">M: %1$s</string>
+    <string name="nyc_school_sat_reading">R: %1$s</string>
+    <string name="nyc_school_sat_writing">W: %1$s</string>
+</resources>
