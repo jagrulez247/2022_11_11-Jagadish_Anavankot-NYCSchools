@@ -28,7 +28,6 @@ class NycSchoolsRemoteDataSource @Inject constructor(
         }
     }
 
-
     suspend fun fetchSchools(): DataFetchResult<List<NycSchoolData>> {
         val apiResponse = retrofit.getResponse(
             request = { apiService.getAllSchools() },

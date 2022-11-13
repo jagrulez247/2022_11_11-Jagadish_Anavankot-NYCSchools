@@ -16,8 +16,7 @@ class NycSchoolDataMapper @Inject constructor() {
             ?.trim()
             ?.lowercase(Locale.getDefault())
             ?.split(" ")
-            ?.map { word -> word.replaceFirstChar { it.titlecase(Locale.getDefault()) } }
-            ?.joinToString(" "),
+            ?.joinToString(" ") { word -> word.replaceFirstChar { it.titlecase(Locale.getDefault()) } },
         sat_critical_reading_avg_score = apiData?.sat_critical_reading_avg_score?.trim(),
         sat_math_avg_score = apiData?.sat_math_avg_score?.trim(),
         sat_writing_avg_score = apiData?.sat_writing_avg_score?.trim(),
@@ -33,8 +32,7 @@ class NycSchoolDataMapper @Inject constructor() {
                 ?.trim()
                 ?.lowercase(Locale.getDefault())
                 ?.split(" ")
-                ?.map { word -> word.replaceFirstChar { it.titlecase(Locale.getDefault()) } }
-                ?.joinToString(" "),
+                ?.joinToString(" ") { word -> word.replaceFirstChar { it.titlecase(Locale.getDefault()) } },
             total_students = apiData?.total_students?.trim(),
             graduation_rate = apiData?.graduation_rate?.trim(),
             attendance_rate = apiData?.attendance_rate?.trim(),
