@@ -3,6 +3,8 @@ package com.education.nycschools.schoolinfo.ui.sats
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,7 +56,13 @@ class NycSchoolSatsFragment : BaseFragment() {
         when (state) {
             is NycSchoolSatsUiStates.UpdateSchoolSats -> satAdapter.update(state.sats)
             is NycSchoolSatsUiStates.InformItemSelection -> itemSelectedCallback(state.dbn)
-            NycSchoolSatsUiStates.DismissKeyboard -> binding.searchLayout.hideKeyboard()
+            is NycSchoolSatsUiStates.DismissKeyboard -> binding.searchLayout.hideKeyboard()
+            is NycSchoolSatsUiStates.HideNoData -> {
+                binding.nycSchoolSatsNoSearchData.visibility = GONE
+            }
+            is NycSchoolSatsUiStates.ShowNoData -> {
+                binding.nycSchoolSatsNoSearchData.visibility = VISIBLE
+            }
         }
     }
 

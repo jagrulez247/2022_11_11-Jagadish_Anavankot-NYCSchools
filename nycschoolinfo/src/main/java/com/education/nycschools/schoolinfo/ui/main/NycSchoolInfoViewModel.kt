@@ -1,6 +1,5 @@
 package com.education.nycschools.schoolinfo.ui.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,15 +32,10 @@ class NycSchoolInfoViewModel @Inject constructor(
     private var prefetchJob: Job? = null
 
     fun onViewCreated() {
-        prefetchJob = prefetchScope.launch {
+        prefetchJob = prefetchScope.launch(main()) {
             repository.fetchAllSchoolSats().cancellable().collect { result ->
                 val isLoading = result?.status == DataFetchResult.Status.LOADING
-                val schoolSats = result
-                    ?.data
-                    ?.filter { satData -> satData.school_name != null }
-                    ?.sortedBy { satData -> satData.school_name }
-                    ?: mutableListOf()
-
+                val schoolSats = result?.data ?: mutableListOf()
                 if (schoolSats.isNotEmpty()) {
                     handleLoadedScenario()
                     prefetchJob?.cancel()
@@ -62,24 +56,15 @@ class NycSchoolInfoViewModel @Inject constructor(
     }
 
     private fun handleLoadedScenario() {
-        viewModelScope.launch(main()) {
-            Log.d(TAG, "Data Loaded")
-            uiState.value = Loaded
-        }
+        viewModelScope.launch(main()) { uiState.value = Loaded }
     }
 
     private fun handleLoadingScenario() {
-        viewModelScope.launch(main()) {
-            Log.d(TAG, "Data loading")
-            uiState.value = Loading
-        }
+        viewModelScope.launch(main()) { uiState.value = Loading }
     }
 
     private fun handleNoDataScenario() {
-        viewModelScope.launch(main()) {
-            Log.d(TAG, "No data")
-            uiState.value = NoData
-        }
+        viewModelScope.launch(main()) { uiState.value = NoData }
     }
 
     fun onSatItemSelected(dbn: String) {

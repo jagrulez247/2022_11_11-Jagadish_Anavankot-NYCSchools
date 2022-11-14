@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.education.nycschools.common.utils.LocalCoroutineDispatcher.main
 import com.education.nycschools.domain.data.NycSchoolsInfoRepository
 import com.education.nycschools.domain.models.NycSchoolSatData
+import com.education.nycschools.schoolinfo.ui.sats.NycSchoolSatsUiStates.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.*
@@ -20,7 +21,7 @@ class NycSchoolSatsViewModel @Inject constructor(
 
     private val uiState: MutableLiveData<NycSchoolSatsUiStates> = MutableLiveData()
     internal fun uiState(): LiveData<NycSchoolSatsUiStates> = uiState
-    private val schoolSats: MutableList<NycSchoolSatData> = mutableListOf()
+    internal val schoolSats: MutableList<NycSchoolSatData> = mutableListOf()
     private val searchSats: MutableList<NycSchoolSatData> = mutableListOf()
     private var searchQuery: String = ""
 
@@ -45,10 +46,11 @@ class NycSchoolSatsViewModel @Inject constructor(
         schoolSats.clear()
         schoolSats.addAll(schoolSatsFetched)
         val firstDbn = schoolSats.takeIf { it.isNotEmpty() }?.get(0)?.dbn ?: ""
+        uiState.value = if (schoolSats.isEmpty()) ShowNoData else HideNoData
         if (firstDbn.isNotBlank()) {
             handleItemSelected(firstDbn)
         } else {
-            uiState.value = NycSchoolSatsUiStates.UpdateSchoolSats(schoolSats)
+            uiState.value = UpdateSchoolSats(schoolSats)
         }
     }
 
@@ -61,7 +63,8 @@ class NycSchoolSatsViewModel @Inject constructor(
         searchQuery = query?.trim() ?: ""
         viewModelScope.launch(main()) {
             if (searchQuery.isBlank()) {
-                uiState.value = NycSchoolSatsUiStates.UpdateSchoolSats(schoolSats)
+                uiState.value = if (schoolSats.isEmpty()) ShowNoData else HideNoData
+                uiState.value = UpdateSchoolSats(schoolSats)
                 return@launch
             }
 
@@ -77,21 +80,27 @@ class NycSchoolSatsViewModel @Inject constructor(
                 .sortedBy { it.school_name }
             searchSats.clear()
             searchSats.addAll(searchResults)
-            uiState.value = NycSchoolSatsUiStates.UpdateSchoolSats(searchSats)
+            uiState.value = if (searchSats.isEmpty()) ShowNoData else HideNoData
+            uiState.value = UpdateSchoolSats(searchSats)
         }
     }
 
     private fun handleItemSelected(dbn: String?) {
         if (dbn.isNullOrBlank()) return
+        updateSatsAfterSelection(dbn, schoolSats)
+        updateSatsAfterSelection(dbn, searchSats)
         val satList = if (searchQuery.isBlank()) schoolSats else searchSats
+        uiState.value = UpdateSchoolSats(satList)
+        uiState.value = InformItemSelection(dbn)
+        uiState.value = DismissKeyboard
+    }
+
+    private fun updateSatsAfterSelection(dbn: String, satList: MutableList<NycSchoolSatData>) {
         val selectionIndex = satList.indexOfFirst { it.dbn == dbn }
         if (selectionIndex == -1) return
         for (index in satList.indices) {
             val itemAtIndex = satList[index]
             satList[index] = itemAtIndex.copy(selected = index == selectionIndex)
         }
-        uiState.value = NycSchoolSatsUiStates.UpdateSchoolSats(satList)
-        uiState.value = NycSchoolSatsUiStates.InformItemSelection(dbn)
-        uiState.value = NycSchoolSatsUiStates.DismissKeyboard
     }
 }

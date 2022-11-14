@@ -1,4 +1,5 @@
 import Dependencies.addCoreModuleDependencies
+import Dependencies.addTestDependencies
 
 plugins {
     id("com.android.library")
@@ -44,4 +45,5 @@ kapt {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     addCoreModuleDependencies()
+    addTestDependencies()
 }

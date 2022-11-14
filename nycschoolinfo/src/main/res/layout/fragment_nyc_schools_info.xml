@@ -55,12 +55,11 @@
 
     <TextView
         android:id="@+id/nycSchoolInfoNoData"
-        style="@style/TextView.Secondary.Medium"
+        style="@style/TextView.Primary.Medium"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:ellipsize="end"
         android:gravity="center"
-        android:maxLines="1"
         android:text="@string/nyc_school_no_data"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nycSchoolSatTopDivider"

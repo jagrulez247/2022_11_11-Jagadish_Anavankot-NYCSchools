@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="nyc_school_data_fetch_error">Could not load data</string>
-    <string name="nyc_school_no_data">No school data available</string>
+    <string name="nyc_school_no_data">No school data available.\nPlease check network connection</string>
+    <string name="nyc_school_no_data_for_search">No results</string>
     <string name="nyc_school_sat_title">SAT AVG. SCORES <sup>*</sup><sup>*</sup></string>
     <string name="nyc_school_sat_scores_description"><sup>*</sup><sup>*</sup> M - Math \t\t R - Reading \t\t W - Writing</string>
     <string name="nyc_school_sat_total_takes">Total Tests: %1$s</string>

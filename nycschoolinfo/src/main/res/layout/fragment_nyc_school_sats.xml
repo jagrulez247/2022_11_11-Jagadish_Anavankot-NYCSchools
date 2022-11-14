@@ -19,6 +19,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <TextView
+        android:id="@+id/nycSchoolSatsNoSearchData"
+        style="@style/TextView.Primary.Medium"
+        android:layout_height="268dp"
+        android:layout_width="match_parent"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:text="@string/nyc_school_no_data_for_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchLayout"
+        android:visibility="gone"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/nycSchoolSatsRecyclerView"
         android:layout_width="match_parent"

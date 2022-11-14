@@ -24,6 +24,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    sourceSets {
+        getByName("test").java.srcDirs("src/test/java/com/education/nycschools/common")
+    }
+
     testOptions { unitTests { all { it.maxHeapSize = "1024m" } } }
 
     kotlinOptions {
@@ -51,4 +55,5 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":domain"))
     implementation(project(":uicomponents"))
+    testImplementation(project(":common"))
 }
