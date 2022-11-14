@@ -2,7 +2,7 @@
 
 Modular Android architecture which showcases Kotlin, MVVM, Hilt, Coroutines, Flow, LiveData, Retrofit, Moshi, Room, ViewBinding, Unit testing and Kotlin Gradle DSL.
 
-![ezgif-2-7d3533a014](https://user-images.githubusercontent.com/833213/201634193-3dd57d4c-b875-4821-a90b-cf9ba5052c38.gif)
+![ezgif-2-140e89a964](https://user-images.githubusercontent.com/833213/201635169-b16105a9-0632-4802-96b1-34b2b64b7bfb.gif)
 
 ## Features
 
