@@ -1,12 +1,15 @@
 package com.education.nycschools.schoolinfo.ui.detail
 
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import com.education.nycschools.schoolinfo.R
 import com.education.nycschools.schoolinfo.databinding.FragmentNycSchoolDetailBinding
 import com.education.nycschools.uicomponents.base.BaseFragment
 import com.education.nycschools.uicomponents.extensions.observe
@@ -15,7 +18,7 @@ import com.education.nycschools.uicomponents.feature.FeatureConstants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NycSchoolDetailFragment: BaseFragment() {
+class NycSchoolDetailFragment : BaseFragment() {
 
     companion object {
 
@@ -77,14 +80,25 @@ class NycSchoolDetailFragment: BaseFragment() {
                 binding.nycSchoolDetailContent.nycSchoolEligibility.text = state.eligibility
             }
             is SchoolAddress -> {
+                binding.nycSchoolDetailContent.nycSchoolAddress.movementMethod =
+                    LinkMovementMethod()
+                context?.let {
+                    binding.nycSchoolDetailContent.nycSchoolAddress.highlightColor = ContextCompat
+                        .getColor(
+                            it,
+                            com.education.nycschools.uicomponents.R.color.colorAccent
+                        )
+                }
                 binding.nycSchoolDetailContent.nycSchoolAddress.visibility = VISIBLE
                 binding.nycSchoolDetailContent.nycSchoolAddress.text = state.address
             }
             is SchoolEmail -> {
+                binding.nycSchoolDetailContent.nycSchoolEmail.movementMethod = LinkMovementMethod()
                 binding.nycSchoolDetailContent.nycSchoolEmail.visibility = VISIBLE
                 binding.nycSchoolDetailContent.nycSchoolEmail.text = state.email
             }
             is SchoolPhone -> {
+                binding.nycSchoolDetailContent.nycSchoolPhone.movementMethod = LinkMovementMethod()
                 binding.nycSchoolDetailContent.nycSchoolPhone.visibility = VISIBLE
                 binding.nycSchoolDetailContent.nycSchoolPhone.text = state.phone
             }

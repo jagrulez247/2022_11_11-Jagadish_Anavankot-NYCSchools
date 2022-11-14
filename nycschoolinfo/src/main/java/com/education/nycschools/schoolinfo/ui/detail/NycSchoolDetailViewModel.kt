@@ -3,7 +3,9 @@ package com.education.nycschools.schoolinfo.ui.detail
 import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.style.ClickableSpan
 import android.text.style.UnderlineSpan
+import android.view.View
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,6 +18,9 @@ import com.education.nycschools.domain.models.NycSchoolData
 import com.education.nycschools.schoolinfo.R
 import com.education.nycschools.schoolinfo.ui.detail.NycSchoolDetailUiStates.*
 import com.education.nycschools.schoolinfo.ui.main.NycSchoolInfoUiStates
+import com.education.nycschools.uicomponents.extensions.openMap
+import com.education.nycschools.uicomponents.extensions.sendEmailTo
+import com.education.nycschools.uicomponents.extensions.sendSmsTo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,6 +33,29 @@ class NycSchoolDetailViewModel @Inject constructor(
     private val uiState: MutableLiveData<NycSchoolDetailUiStates> = MutableLiveData()
     internal fun uiState(): LiveData<NycSchoolDetailUiStates> = uiState
     private val underlineSpan = UnderlineSpan()
+
+    private val clickableSpanEmail: ClickableSpan = object : ClickableSpan() {
+        override fun onClick(widget: View) {
+            widget.sendEmailTo(contactEmail)
+        }
+    }
+
+    private val clickableSpanPhone: ClickableSpan = object : ClickableSpan() {
+        override fun onClick(widget: View) {
+            widget.sendSmsTo(contactPhone)
+        }
+    }
+
+    private val clickableSpanAddress: ClickableSpan = object : ClickableSpan() {
+        override fun onClick(widget: View) {
+            widget.openMap(contactAddress)
+        }
+    }
+
+    private var contactEmail: String = ""
+    private var contactPhone: String = ""
+    private var contactAddress: String = ""
+
     fun onViewCreated(context: Context, dbn: String) {
         viewModelScope.launch(main()) {
             val cachedSchoolData = repository.getSchoolDetailFromCache(dbn)
@@ -65,15 +93,9 @@ class NycSchoolDetailViewModel @Inject constructor(
             context.getString(R.string.nyc_school_detail_total_students),
             schoolData?.total_students ?: unavailable
         )
-        val email = schoolData?.school_email ?: ""
-        val formattedEmail = SpannableStringBuilder(email).apply {
-            setSpan(underlineSpan, 0, email.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        }
-        val phone = schoolData?.phone_number ?: ""
-        val formattedPhone = SpannableStringBuilder(phone).apply {
-            setSpan(underlineSpan, 0, phone.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        }
-        val address = getAddress(schoolData)
+        contactEmail = schoolData?.school_email ?: ""
+        contactPhone = schoolData?.phone_number ?: ""
+        contactAddress = getAddress(schoolData)
         val gradRate = getGradRate(context, schoolData)
         val academics = getFullAcademicString(context, schoolData)
         val eligible = schoolData?.eligibility1 ?: ""
@@ -84,7 +106,7 @@ class NycSchoolDetailViewModel @Inject constructor(
         uiState.value =
             if (eligible.isBlank()) HideEligibility else SchoolEligibility(eligible)
         uiState.value =
-            if (address.isBlank()) HideAddress else SchoolAddress(address)
+            if (contactAddress.isBlank()) HideAddress else SchoolAddress(getFormattedAddress())
         uiState.value = SchoolTotalStudents(totalStudents)
         uiState.value = SchoolGradRate(gradRate)
         uiState.value = SchoolDescription(overview)
@@ -95,9 +117,45 @@ class NycSchoolDetailViewModel @Inject constructor(
         uiState.value =
             if (sports.isBlank()) HideSports else SchoolSports(sports)
         uiState.value =
-            if (formattedEmail.isBlank()) HideEmail else SchoolEmail(formattedEmail)
+            if (contactEmail.isBlank()) HideEmail else SchoolEmail(getFormattedEmail())
         uiState.value =
-            if (formattedPhone.isBlank()) HidePhone else SchoolPhone(formattedPhone)
+            if (contactPhone.isBlank()) HidePhone else SchoolPhone(getFormattedPhone())
+    }
+
+    private fun getFormattedAddress(): SpannableStringBuilder {
+        if (contactAddress.isBlank()) return SpannableStringBuilder(contactAddress)
+        return SpannableStringBuilder(contactAddress).apply {
+            setSpan(
+                clickableSpanAddress,
+                0,
+                contactAddress.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+    }
+
+    private fun getFormattedEmail(): SpannableStringBuilder {
+        if (contactEmail.isBlank()) return SpannableStringBuilder(contactEmail)
+        return SpannableStringBuilder(contactEmail).apply {
+            setSpan(
+                clickableSpanEmail,
+                0,
+                contactEmail.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+    }
+
+    private fun getFormattedPhone(): SpannableStringBuilder {
+        if (contactPhone.isBlank()) return SpannableStringBuilder(contactPhone)
+        return SpannableStringBuilder(contactPhone).apply {
+            setSpan(
+                clickableSpanPhone,
+                0,
+                contactPhone.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
     }
 
     private fun getSports(schoolData: NycSchoolData?): String {

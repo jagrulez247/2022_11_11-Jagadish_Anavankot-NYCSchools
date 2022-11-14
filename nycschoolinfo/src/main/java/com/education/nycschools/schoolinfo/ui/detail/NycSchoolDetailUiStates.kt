@@ -15,7 +15,7 @@ sealed class NycSchoolDetailUiStates {
     object HideSports: NycSchoolDetailUiStates()
     class SchoolName(val name: String): NycSchoolDetailUiStates()
     class SchoolEligibility(val eligibility: String): NycSchoolDetailUiStates()
-    class SchoolAddress(val address: String): NycSchoolDetailUiStates()
+    class SchoolAddress(val address: SpannableStringBuilder): NycSchoolDetailUiStates()
     class SchoolEmail(val email: SpannableStringBuilder): NycSchoolDetailUiStates()
     class SchoolPhone(val phone: SpannableStringBuilder): NycSchoolDetailUiStates()
     class SchoolTotalStudents(val total: String): NycSchoolDetailUiStates()

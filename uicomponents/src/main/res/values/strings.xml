@@ -6,4 +6,7 @@
     <string name="nyc_school_sats_fragment">NycSchoolSatsFragment</string>
     <string name="nyc_school_detail_fragment">NycSchoolDetailFragment</string>
     <string name="nyc_school_info_unavailable">N/A</string>
+    <string name="navigate_address_chooser_title">Navigate via</string>
+    <string name="send_email_chooser_title">Send Email</string>
+    <string name="send_sms_chooser_title">Send SMS</string>
 </resources>
