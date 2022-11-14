@@ -27,6 +27,11 @@ internal class NycSchoolSatAdapter(
         return NycSchoolSatItemViewHolder(parent)
     }
 
+    fun getDbnAtPos(position: Int): String {
+        if (position < 0 || position >= satItems.size) return ""
+        return satItems[position].dbn
+    }
+
     override fun onBindViewHolder(holder: NycSchoolSatItemViewHolder, position: Int) {
         val satItem = satItems[position]
         holder.setName(satItem.school_name ?: unavailableText)

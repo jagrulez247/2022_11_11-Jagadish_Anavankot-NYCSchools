@@ -69,6 +69,7 @@ class NycSchoolSatsFragment : BaseFragment() {
     private fun setRecyclerView(view: View) {
         binding.nycSchoolSatsRecyclerView.apply {
             layoutManager = LinearLayoutManager(view.context, RecyclerView.HORIZONTAL, false)
+            val layoutManagerProperty = layoutManager
             LinearSnapHelper().attachToRecyclerView(this)
             adapter = NycSchoolSatAdapter(
                 onItemClick = { dbn, position ->
@@ -76,6 +77,24 @@ class NycSchoolSatsFragment : BaseFragment() {
                     viewModel.onItemSelected(dbn)
                 }
             ).apply { satAdapter = this }
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        val visiblePos = (layoutManagerProperty as? LinearLayoutManager)
+                            ?.findFirstCompletelyVisibleItemPosition() ?: -1
+                        val itemDbn = if (visiblePos != -1) {
+                            (adapter as? NycSchoolSatAdapter)?.getDbnAtPos(visiblePos) ?: ""
+                        } else {
+                            ""
+                        }
+                        if (itemDbn.isNotBlank()) {
+                            binding.nycSchoolSatsRecyclerView.smoothScrollToPosition(visiblePos)
+                            viewModel.onItemSelected(itemDbn)
+                        }
+                    }
+                }
+            })
         }
     }
 
