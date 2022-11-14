@@ -21,7 +21,9 @@ class MainNavActivity: BaseActivity() {
             this,
             containerId = R.id.mainNavContainer,
             fragment = fragment,
-            data = fragmentData ?: NycSchoolInfoScreen()
+            data = fragmentData ?: NycSchoolInfoScreen().setEnterAnimation(
+                com.education.nycschools.uicomponents.R.anim.anim_slide_right_to_left
+            )
         )
     }
 }

@@ -64,7 +64,7 @@ class NycSchoolInfoViewModel @Inject constructor(
     private fun handleLoadedScenario() {
         viewModelScope.launch(main()) {
             Log.d(TAG, "Data Loaded")
-            uiState.value = LoadSatList
+            uiState.value = Loaded
         }
     }
 

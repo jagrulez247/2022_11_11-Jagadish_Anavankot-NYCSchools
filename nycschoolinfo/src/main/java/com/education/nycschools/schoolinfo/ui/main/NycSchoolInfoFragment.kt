@@ -6,8 +6,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Toast
-import android.widget.Toast.LENGTH_LONG
 import androidx.fragment.app.activityViewModels
 import com.education.nycschools.schoolinfo.R
 import com.education.nycschools.schoolinfo.databinding.FragmentNycSchoolsInfoBinding
@@ -47,6 +45,16 @@ class NycSchoolInfoFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         observe(viewModel.uiState()) { updateUi(it) }
         viewModel.onViewCreated()
+        replaceFragment(
+            context,
+            R.id.nycSchoolSatsFragmentContainer,
+            NycSchoolSatsFragment
+                .getNycSchoolSatsFragment()
+                .apply { setItemSelectedListener { viewModel.onSatItemSelected(it) } },
+            NycSchoolSatsScreen().setEnterAnimation(
+                com.education.nycschools.uicomponents.R.anim.anim_fade_in
+            )
+        )
     }
 
     private fun updateUi(state: NycSchoolInfoUiStates) {
@@ -61,19 +69,11 @@ class NycSchoolInfoFragment : BaseFragment() {
                     com.education.nycschools.uicomponents.R.anim.anim_fade_in
                 )
             )
-            NycSchoolInfoUiStates.LoadSatList -> {
+            NycSchoolInfoUiStates.Loaded -> {
                 binding.nycSchoolInfoNoData.visibility = GONE
                 binding.nycSchoolInfoProgressBar.visibility = GONE
                 binding.nycSchoolSatsFragmentContainer.visibility = VISIBLE
                 binding.nycSchoolDetailFragmentContainer.visibility = VISIBLE
-                replaceFragment(
-                    context,
-                    R.id.nycSchoolSatsFragmentContainer,
-                    NycSchoolSatsFragment
-                        .getNycSchoolSatsFragment()
-                        .apply { setItemSelectedListener { viewModel.onSatItemSelected(it) } },
-                    NycSchoolSatsScreen()
-                )
             }
             NycSchoolInfoUiStates.Loading -> {
                 binding.nycSchoolInfoProgressBar.visibility = VISIBLE

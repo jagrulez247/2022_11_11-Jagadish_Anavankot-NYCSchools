@@ -29,10 +29,6 @@ class SplashActivity : AppCompatActivity() {
         when (state) {
             is SplashUiStates.MoveToAppScreens -> {
                 launchActivityNew<MainNavActivity>(FRAGMENT_DATA, state.data)
-                overridePendingTransition(
-                    R.anim.anim_slide_right_to_left,
-                    R.anim.anim_slide_left_to_off_screen
-                )
             }
             SplashUiStates.Finish -> finish()
         }

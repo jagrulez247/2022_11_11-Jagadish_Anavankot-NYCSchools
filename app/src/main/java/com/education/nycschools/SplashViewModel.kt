@@ -36,7 +36,11 @@ internal class SplashViewModel @Inject constructor(
     private fun moveToMainNavScreens() {
         if (isFinished) return
         isFinished = true
-        uiState.value = SplashUiStates.MoveToAppScreens(NycSchoolInfoScreen())
+        uiState.value = SplashUiStates.MoveToAppScreens(
+            NycSchoolInfoScreen().setEnterAnimation(
+                com.education.nycschools.uicomponents.R.anim.anim_slide_right_to_left
+            )
+        )
         uiState.value = SplashUiStates.Finish
     }
 }
