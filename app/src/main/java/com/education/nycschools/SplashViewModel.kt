@@ -1,6 +1,5 @@
 package com.education.nycschools
 
-import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,33 +13,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class SplashViewModel @Inject constructor(
-    private val prefetchUtil: NycSchoolInfoPrefetchUtil
+    prefetchUtil: NycSchoolInfoPrefetchUtil
 ) : ViewModel() {
-
-    companion object {
-        private const val TAG = "SplashViewModel"
-    }
 
     private val uiState: MutableLiveData<SplashUiStates> = MutableLiveData()
     internal fun uiState(): LiveData<SplashUiStates> = uiState
 
-    @Volatile private var isFinished: Boolean = false
-
-    fun onCreate() {
-        prefetchUtil.fetchAndSaveAllSchoolSats()
-        prefetchUtil.refreshAllSchools()
-        viewModelScope.launch(main()) { moveToMainNavScreens() }
+    init {
+        prefetchUtil.refresh()
     }
 
-    @MainThread
-    private fun moveToMainNavScreens() {
-        if (isFinished) return
-        isFinished = true
-        uiState.value = SplashUiStates.MoveToAppScreens(
-            NycSchoolInfoScreen().setEnterAnimation(
+    fun onCreate() {
+        viewModelScope.launch(main()) {
+            val destination = NycSchoolInfoScreen().setEnterAnimation(
                 com.education.nycschools.uicomponents.R.anim.anim_slide_right_to_left
             )
-        )
-        uiState.value = SplashUiStates.Finish
+            uiState.value = SplashUiStates.MoveToAppScreens(destination)
+            uiState.value = SplashUiStates.Finish
+        }
     }
 }

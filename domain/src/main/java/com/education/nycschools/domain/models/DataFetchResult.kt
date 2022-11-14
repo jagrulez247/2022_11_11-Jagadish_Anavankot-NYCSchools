@@ -7,6 +7,9 @@ data class DataFetchResult<out T>(
     val message: String?
 ) {
 
+    fun isLoadingStatus(): Boolean = status == Status.LOADING
+    fun isSuccessStatus(): Boolean = status == Status.SUCCESS
+
     enum class Status {
         SUCCESS,
         ERROR,
