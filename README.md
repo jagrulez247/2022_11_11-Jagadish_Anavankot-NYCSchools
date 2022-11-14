@@ -22,7 +22,7 @@ The `:app` module is a [com.android.application](https://developer.android.com/s
 The `:domain` module is a [com.android.library](https://developer.android.com/studio/projects/android-library) for serving network requests, and providing the data source for the many features that require it.
 
 ### Common module
-The `:common` module is a [com.android.library](https://developer.android.com/studio/projects/android-library) only contains non UI code and resources which are shared between feature modules, to avoid dubplication Reusing this way resources, layouts, views, and components in the different features modules, without the need to duplicate code.
+The `:common` module is a [com.android.library](https://developer.android.com/studio/projects/android-library) only contains non UI code and resources which are shared between feature modules, to avoid duplication.
 
 ### UI Components module
 The `:uicomponents` module is a [com.android.library](https://developer.android.com/studio/projects/android-library) only contains UI specific code like themes, icons, layouts, colors, reusable custom views and UI based extensions. Reusing this way all resources, layouts, views, and components in the different features modules.
