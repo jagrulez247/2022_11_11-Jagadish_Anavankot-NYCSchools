@@ -45,14 +45,17 @@ class NycSchoolsInfoRepository @Inject constructor(
 
     suspend fun refreshSchools(): Flow<DataFetchResult<List<NycSchoolData>>?> {
         return flow {
+            emit(schoolsDao.fetchSchoolsCached(backup = schoolData))
             emit(DataFetchResult.loading())
             val schools = schoolsRemoteDataSource
                 .fetchSchools()
                 .apply {
-                    schoolData.clear()
-                    data?.forEach {
-                        schoolsDao.refreshSchool(it)
-                        schoolData[it.dbn] = it
+                    if (!data.isNullOrEmpty()) {
+                        schoolData.clear()
+                        data.forEach {
+                            schoolsDao.refreshSchool(it)
+                            schoolData[it.dbn] = it
+                        }
                     }
                 }.data
             emit(DataFetchResult.success(schools))

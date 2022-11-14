@@ -11,6 +11,9 @@ interface NycSchoolDataDao {
     @Query("SELECT * FROM nycschoolsats order by school_name DESC")
     fun getAllSats(): List<NycSchoolSatData>?
 
+    @Query("SELECT * FROM nycschools")
+    fun getAllSchoolData(): List<NycSchoolData>?
+
     @Query("SELECT * FROM nycschools where dbn = :dbn")
     fun getSchoolData(dbn: String): List<NycSchoolData>?
 
@@ -29,6 +32,15 @@ interface NycSchoolDataDao {
                 backup.clear()
                 backup.addAll(it)
                 DataFetchResult.success(it)
+            }
+    }
+
+    fun fetchSchoolsCached(backup: MutableMap<String, NycSchoolData>): DataFetchResult<List<NycSchoolData>>? {
+        return getAllSchoolData()
+            ?.let { result ->
+                backup.clear()
+                result.forEach { backup[it.dbn] = it }
+                DataFetchResult.success(result)
             }
     }
 
