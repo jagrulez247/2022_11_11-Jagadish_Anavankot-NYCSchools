@@ -1,6 +1,5 @@
 package com.education.nycschools.schoolinfo
 
-import android.util.Log
 import com.education.nycschools.common.utils.LocalCoroutineDispatcher.main
 import com.education.nycschools.domain.data.NycSchoolsInfoRepository
 import com.education.nycschools.domain.models.DataFetchResult
@@ -19,34 +18,16 @@ class NycSchoolInfoPrefetchUtil @Inject constructor(private val repo: NycSchools
     private var schoolFetchJob: Job? = null
 
     fun refresh() {
-        satFetchJob = prefetchScope.launch(main()) { refreshSchoolSats() }
-        schoolFetchJob = prefetchScope.launch(main()) { refreshSchools() }
-    }
-
-    private suspend fun refreshSchoolSats() {
-        repo
-            .fetchAllSchoolSats()
-            .collect { processResult(it, satFetchJob, "satList") }
-    }
-
-    private suspend fun refreshSchools() {
-        repo
-            .refreshSchools()
-            .collect { processResult(it, schoolFetchJob, "schoolList") }
-    }
-
-    private fun <T> processResult(result: DataFetchResult<List<T>>?, job: Job?, tag: String) {
-        val isLoading = result?.isLoadingStatus() ?: false
-        val isSuccess = result?.isSuccessStatus() ?: false && result?.data?.isNotEmpty() == true
-        when {
-            isLoading -> Log.d("PrefetchUtil", "Loading $tag results")
-            isSuccess -> {
-                job?.cancel()
-                Log.d(
-                    "PrefetchUtil",
-                    "Fetch complete, $tag of size: ${result?.data?.size ?: 0}"
-                )
-            }
+        satFetchJob = prefetchScope.launch(main()) {
+            repo.fetchAllSchoolSats().collect { cancelOnSuccess(it, satFetchJob) }
         }
+        schoolFetchJob = prefetchScope.launch(main()) {
+            repo.refreshSchools().collect { cancelOnSuccess(it, schoolFetchJob) }
+        }
+    }
+
+    private fun <T> cancelOnSuccess(result: DataFetchResult<List<T>>?, job: Job?) {
+        val isSuccess = result?.isSuccessStatus() ?: false && result?.data?.isNotEmpty() == true
+        if (isSuccess) job?.cancel()
     }
 }
