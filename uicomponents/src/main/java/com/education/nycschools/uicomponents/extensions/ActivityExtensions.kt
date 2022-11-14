@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.education.nycschools.uicomponents.base.BaseActivity
@@ -22,6 +23,11 @@ fun BaseActivity.replaceFragment(
     fragment: BaseFragment,
     data: BaseFragmentData
 ) = supportFragmentManager.replaceFragment(context, containerId, fragment, data)
+
+fun BaseActivity.findExistingFragment(tagName: String?): BaseFragment? {
+    if (tagName.isNullOrBlank()) return null
+    return supportFragmentManager.findFragmentByTag(tagName)?.let { it as? BaseFragment }
+}
 
 fun <T> AppCompatActivity.observe(data: LiveData<T>, observer: Observer<in T>) {
     data.observe(this, observer)

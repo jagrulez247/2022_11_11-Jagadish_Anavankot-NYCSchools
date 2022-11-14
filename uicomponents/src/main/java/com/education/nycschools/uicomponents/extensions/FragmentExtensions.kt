@@ -13,6 +13,11 @@ fun <T> Fragment.observe(data: LiveData<T>, observer: Observer<in T>) {
     data.observe(viewLifecycleOwner, observer)
 }
 
+fun FragmentManager.findExistingFragment(tagName: String?): BaseFragment? {
+    if (tagName.isNullOrBlank()) return null
+    return findFragmentByTag(tagName)?.let { it as? BaseFragment }
+}
+
 fun BaseFragment.replaceFragment(
     context: Context?,
     @IdRes containerId: Int,

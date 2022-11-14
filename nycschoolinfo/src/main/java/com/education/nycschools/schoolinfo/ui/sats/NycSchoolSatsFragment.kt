@@ -7,6 +7,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ import com.education.nycschools.schoolinfo.databinding.FragmentNycSchoolSatsBind
 import com.education.nycschools.schoolinfo.ui.sats.adapter.NycSchoolSatAdapter
 import com.education.nycschools.uicomponents.base.BaseFragment
 import com.education.nycschools.uicomponents.extensions.observe
+import com.education.nycschools.uicomponents.feature.MainNavSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,10 +28,10 @@ class NycSchoolSatsFragment : BaseFragment() {
         ) = NycSchoolSatsFragment().apply { arguments = bundle ?: Bundle() }
     }
 
-    private val viewModel: NycSchoolSatsViewModel by activityViewModels()
+    private val viewModel: NycSchoolSatsViewModel by viewModels()
+    private val mainNavViewModel: MainNavSharedViewModel by activityViewModels()
     private lateinit var binding: FragmentNycSchoolSatsBinding
     private lateinit var satAdapter: NycSchoolSatAdapter
-    private lateinit var itemSelectedCallback: (String) -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,14 +50,12 @@ class NycSchoolSatsFragment : BaseFragment() {
         viewModel.onViewCreated()
     }
 
-    internal fun setItemSelectedListener(callback: (String) -> Unit) {
-        itemSelectedCallback = callback
-    }
-
     private fun updateUi(state: NycSchoolSatsUiStates) {
         when (state) {
             is NycSchoolSatsUiStates.UpdateSchoolSats -> satAdapter.update(state.sats)
-            is NycSchoolSatsUiStates.InformItemSelection -> itemSelectedCallback(state.dbn)
+            is NycSchoolSatsUiStates.InformItemSelection ->{
+                mainNavViewModel.satListItemSelected(state.dbn)
+            }
             is NycSchoolSatsUiStates.DismissKeyboard -> binding.searchLayout.hideKeyboard()
             is NycSchoolSatsUiStates.HideNoData -> {
                 binding.nycSchoolSatsNoSearchData.visibility = GONE

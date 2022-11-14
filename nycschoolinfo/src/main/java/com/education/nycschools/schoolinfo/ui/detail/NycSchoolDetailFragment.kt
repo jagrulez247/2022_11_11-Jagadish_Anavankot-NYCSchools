@@ -6,7 +6,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.education.nycschools.schoolinfo.databinding.FragmentNycSchoolDetailBinding
 import com.education.nycschools.uicomponents.base.BaseFragment
 import com.education.nycschools.uicomponents.extensions.observe
@@ -24,7 +24,7 @@ class NycSchoolDetailFragment: BaseFragment() {
         ) = NycSchoolDetailFragment().apply { arguments = bundle ?: Bundle() }
     }
 
-    private val viewModel: NycSchoolDetailViewModel by activityViewModels()
+    private val viewModel: NycSchoolDetailViewModel by viewModels()
     private lateinit var binding: FragmentNycSchoolDetailBinding
 
     override fun onCreateView(

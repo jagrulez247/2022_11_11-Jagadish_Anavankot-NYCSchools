@@ -6,7 +6,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.education.nycschools.schoolinfo.R
 import com.education.nycschools.schoolinfo.databinding.FragmentNycSchoolsInfoBinding
 import com.education.nycschools.schoolinfo.ui.detail.NycSchoolDetailFragment
@@ -29,7 +29,7 @@ class NycSchoolInfoFragment : BaseFragment() {
         ) = NycSchoolInfoFragment().apply { arguments = bundle ?: Bundle() }
     }
 
-    private val viewModel: NycSchoolInfoViewModel by activityViewModels()
+    private val viewModel: NycSchoolInfoViewModel by viewModels()
     private lateinit var binding: FragmentNycSchoolsInfoBinding
 
     override fun onCreateView(
@@ -48,13 +48,14 @@ class NycSchoolInfoFragment : BaseFragment() {
         replaceFragment(
             context,
             R.id.nycSchoolSatsFragmentContainer,
-            NycSchoolSatsFragment
-                .getNycSchoolSatsFragment()
-                .apply { setItemSelectedListener { viewModel.onSatItemSelected(it) } },
-            NycSchoolSatsScreen().setEnterAnimation(
-                com.education.nycschools.uicomponents.R.anim.anim_fade_in
-            )
+            NycSchoolSatsFragment.getNycSchoolSatsFragment(),
+            NycSchoolSatsScreen()
+                .setEnterAnimation(com.education.nycschools.uicomponents.R.anim.anim_fade_in)
         )
+    }
+
+    fun onSatItemSelected(dbn: String) {
+        viewModel.onSatItemSelected(dbn)
     }
 
     private fun updateUi(state: NycSchoolInfoUiStates) {
